@@ -19,13 +19,47 @@ function App() {
   }
   return (
     <div >
-      <h1>My Money</h1>
-      {data.loading && <span>loading...</span>}
-      {data.data && <span>: data:</span>}
-      <button onClick={newPost}>Salvar</button>
-      <button onClick={doRemove}>Deletar</button>
-      <pre>{JSON.stringify(postData)}</pre>
+      <nav className='navbar navbar-light bg-light'>
+        <div className='container'>
+          <a className='navbar-brand'>My Money</a>
+        </div>
+      </nav>
+      <div className='container'>
+        <h5>Adicione Ano e mês</h5>
+        <select className='custom-select'>
+          <option value='2019'>2019</option>
+          <option value='2020'>2020</option>
+        </select><br /><br />
+        <select className='custom-select'>
+          <option value='08'>08</option>
+          <option value='09'>09</option>
+        </select>
 
+        <table className='table table-hover table-sm'>
+          <thead className='thead-dark'>
+            <tr>
+              <th className='col'>Descrição</th>
+              <th className='col'>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              Object.keys(data.data)
+                .map(mes => {
+                  return (
+                  <tr key={mes}>
+                    
+                    <td>{data.data[mes].description}</td>
+                    <td>{data.data[mes].valor}</td>
+                  </tr>
+                  )
+                })
+            }
+          </tbody>
+
+        </table>
+      </div>
+      {!data.loading && <span>loading...</span>}
     </div>
   )
 }
