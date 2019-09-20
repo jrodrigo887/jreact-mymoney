@@ -10,7 +10,7 @@ const Reducer = (state, action) => {
     if (action.type === 'REQUEST') {
         return {
             ...state,
-            loading: false,
+            loading: true,
             
         }
     }
@@ -18,7 +18,7 @@ const Reducer = (state, action) => {
     if (action.type === 'SUCCESS') {
         return {
             ...state,
-            loading: true,
+            loading: false,
             data: action.data
         }
     }
