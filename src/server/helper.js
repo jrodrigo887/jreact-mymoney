@@ -1,6 +1,5 @@
 
 
-
 const Apifirebase = baseUrl => {
 
     const getList = resource => {

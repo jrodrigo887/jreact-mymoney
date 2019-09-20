@@ -1,31 +1,19 @@
 import React from 'react'
-//import Rest from './rest'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+
 import Header from './elements/nav'
-import Meses from './Meses'
-import AddMes from './AddMes'
-const deletar = '-Lp5dH3WpGOLFKPY0KqQ'
+import Home from './pages/Home'
+import Movimentacao from './pages/Movimentacao'
 
 function App() {
-  // const data = useGet('meses')
-  // const [postData, post] = usePost('movement/2019-08')
-  //const [deleteData, remove] = useDelete()
-
-  const newPost = () => {
-    //inserindo um novo post na Api
-    //post({ valor: 37.20, description: 'gasolina comum' })
-
-  }
-  const doRemove = () => {
-    //remove(`movement/meses/2019-08/${deletar}`)
-  }
   return (
-    <div >
-      <Header />
-      <div className='container'>
-        <AddMes />
-        <Meses />
+    <Router>
+      <div>
+        <Header />
+        <Route path='/' exact component={Home} />
+        <Route path='/movimentacao/:data' exact component={Movimentacao} />
       </div>
-    </div>
+    </Router>
   )
 }
 export default App

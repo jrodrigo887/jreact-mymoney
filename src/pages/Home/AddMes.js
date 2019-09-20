@@ -11,7 +11,7 @@ const AddMes = props => (
             <option value='08'>08</option>
             <option value='09'>09</option>
         </select>
-        <button>Adicionar mês</button>
+        <button>Add Mês</button>
     </>
 )
 
