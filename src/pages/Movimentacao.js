@@ -1,11 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Rest from '../util/rest'
+
 const baseurl = 'https://mymoney-jreact887.firebaseio.com/'
-const { useGet } = Rest(baseurl)
+const { useGet, usePost, useDelete } = Rest(baseurl)
 
 const Movimentacao = ({ match }) => {
     const data = useGet(`movimentacao/${match.params.data}`)
+
+    const [descricao, setDescricao] = useState('')
+    const [valor, setValor] = useState(0)
+    const [postData, salvar] = usePost(`movimentacao/${match.params.data}`)
+    const [deletarDados, deletar] = useDelete()
+
+    const SalvarMovimentacao = async () => {
+        await salvar({
+            descricao,
+            valor
+        })
+        setDescricao('')
+        setValor(0)
+        data.refetch()
+    }
+
+    const handleDeletar = async (id) => {
+        await deletar(`movimentacao/${match.params.data}/${id}`)
+        data.refetch()
+    }
+
+    const onChangeDesc = evt => {
+        setDescricao(evt.target.value)
+
+    }
+
+    const onChangeValor = evt => {
+        setValor(parseFloat(evt.target.value))
+        console.log(evt.target.value)
+    }
 
     if (data.loading) {
         return (<span>Loading...</span>)
@@ -22,6 +53,7 @@ const Movimentacao = ({ match }) => {
                             <tr>
                                 <th >Descrição</th>
                                 <th >valor</th>
+                                <th >Ação</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,10 +64,21 @@ const Movimentacao = ({ match }) => {
                                             <tr key={detalhes}>
                                                 <td>{data.data[detalhes].descricao}</td>
                                                 <td>{data.data[detalhes].valor}</td>
+                                                <td><button onClick={() => handleDeletar(detalhes)}>Deletar</button></td>
                                             </tr>
                                         )
                                     })
                             }
+                            <tr>
+                                <td>Nova Descrição:
+                                <input type='text' defaultValue={descricao} onChange={onChangeDesc}>
+                                    </input>
+                                </td>
+                                <td>Valor:
+                                <input type='text' defaultValue={valor} onChange={onChangeValor} />
+                                    <button onClick={SalvarMovimentacao}>+</button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 }
