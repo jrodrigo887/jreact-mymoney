@@ -9,18 +9,21 @@ const Movimentacao = ({ match }) => {
     const data = useGet(`movimentacao/${match.params.data}`)
 
     const [descricao, setDescricao] = useState('')
-    const [valor, setValor] = useState(0)
+    const [valor, setValor] = useState('')
     const [postData, salvar] = usePost(`movimentacao/${match.params.data}`)
     const [deletarDados, deletar] = useDelete()
 
     const SalvarMovimentacao = async () => {
-        await salvar({
-            descricao,
-            valor
-        })
-        setDescricao('')
-        setValor(0)
-        data.refetch()
+
+        if (!isNaN(valor) && valor.search(/^[-]?\d+(\.)?\d+?$/) >= 0) {
+            await salvar({
+                descricao,
+                valor: parseFloat(valor)
+            })
+            setDescricao('')
+            setValor('')
+            data.refetch()
+        }
     }
 
     const handleDeletar = async (id) => {
@@ -34,7 +37,7 @@ const Movimentacao = ({ match }) => {
     }
 
     const onChangeValor = evt => {
-        setValor(parseFloat(evt.target.value))
+        setValor(evt.target.value)
         console.log(evt.target.value)
     }
 
@@ -64,20 +67,20 @@ const Movimentacao = ({ match }) => {
                                             <tr key={detalhes}>
                                                 <td>{data.data[detalhes].descricao}</td>
                                                 <td>{data.data[detalhes].valor}</td>
-                                                <td><button onClick={() => handleDeletar(detalhes)}>Deletar</button></td>
+                                                <td><button className='btn btn-danger' onClick={() => handleDeletar(detalhes)}>Deletar</button></td>
                                             </tr>
                                         )
                                     })
                             }
                             <tr>
-                                <td>Nova Descrição:
+                                <td>Nova Descrição:{' '}
                                 <input type='text' defaultValue={descricao} onChange={onChangeDesc}>
                                     </input>
                                 </td>
-                                <td>Valor:
-                                <input type='text' defaultValue={valor} onChange={onChangeValor} />
-                                    <button onClick={SalvarMovimentacao}>+</button>
+                                <td>Valor: {' '}
+                                <input type='text' defaultValue={valor} onChange={onChangeValor} />{'  '}
                                 </td>
+                                <td><button className='btn btn-success' onClick={SalvarMovimentacao}>+</button></td>
                             </tr>
                         </tbody>
                     </table>
