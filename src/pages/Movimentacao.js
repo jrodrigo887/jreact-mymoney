@@ -72,6 +72,7 @@ const Movimentacao = ({ match }) => {
                                         )
                                     })
                             }
+                              
                             <tr>
                                 <td>Nova Descrição:{' '}
                                 <input type='text' defaultValue={descricao} onChange={onChangeDesc}>
@@ -82,6 +83,7 @@ const Movimentacao = ({ match }) => {
                                 </td>
                                 <td><button className='btn btn-success' onClick={SalvarMovimentacao}>+</button></td>
                             </tr>
+                              
                         </tbody>
                     </table>
                 }

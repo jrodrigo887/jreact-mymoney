@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect } from "react-router-dom"
 const minAno = 2019
 const maxAno = 2022
 
@@ -9,7 +9,7 @@ const AddMes = () => {
     const meses = []
     const refAno = useRef('')
     const refMes = useRef('')
-    const [redir, setRedir] = useState()
+    const [redir, setRedir] = useState('')
 
     for (let i = minAno; i <= maxAno; i++) {
         anos.push(i)
@@ -28,12 +28,16 @@ const AddMes = () => {
     }
 
     const verMes = () => {
-        setRedir(refAno.current.value+'-'+refMes.current.value)
-        console.log(redir)
-        if(redir !== ''){
-           return <Redirect to={'/movimentacao/'+redir} /> 
-        }    
-       
+        const filepath =refAno.current.value+'-'+refMes.current.value
+        setRedir(filepath)
+        console.log("path:",filepath)
+        console.log('redir', redir)
+
+          if(filepath!==""){
+              console.log('chamou o redirect!','/movimentacao/'+filepath )
+             return <Redirect to={'/movimentacao/'+filepath} />
+             
+          }    
     }
 
 
