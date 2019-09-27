@@ -22,6 +22,7 @@ const Rest = baseUrl => {
 
     useEffect(() => {
       carregar()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [resource])
     return {
       ...data,

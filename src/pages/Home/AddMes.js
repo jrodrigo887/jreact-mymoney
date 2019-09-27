@@ -11,6 +11,7 @@ const AddMes = () => {
     const refMes = useRef('')
     const [redir, setRedir] = useState('')
 
+
     for (let i = minAno; i <= maxAno; i++) {
         anos.push(i)
     }
@@ -28,22 +29,24 @@ const AddMes = () => {
     }
 
     const verMes = () => {
-        const filepath =refAno.current.value+'-'+refMes.current.value
+        const filepath = refAno.current.value + '-' + refMes.current.value
         setRedir(filepath)
-        console.log("path:",filepath)
+        console.log("path:", filepath)
         console.log('redir', redir)
 
-          if(filepath!==""){
-              console.log('chamou o redirect!','/movimentacao/'+filepath )
-             return <Redirect to={'/movimentacao/'+filepath} />
-             
-          }    
+        if(filepath !== '') {
+            //não consigo redirecionar a rota.
+            return  ( 
+                // <Redirect to={'/movimentacao/'+filepath} />
+                <h1>Chama o proximo Mês</h1>
+                ) 
+        // console.log('chamou o redirect!', '/movimentacao/' + filepath)
+        
+        }
     }
 
-
-
     return (
-        <>
+        <React.Fragment>
             <h4>Adicionar Mês</h4>
             <select ref={refAno}>
                 {anos.map(ano => { return <option key={ano} value={ano}>{ano}</option> })}
@@ -51,8 +54,8 @@ const AddMes = () => {
             <select ref={refMes}>
                 {meses.map(zeroPad).map(mes => <option key={mes} value={mes}>{mes}</option>)}
             </select>
-            <button onClick={verMes}>Add Mês</button>
-        </>
+            <button onClick={() => {verMes()}}>Add Mês</button>
+        </React.Fragment>
     )
 }
 
