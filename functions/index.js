@@ -10,8 +10,8 @@ exports.soma = functions.database.ref('/movimentacao/{dia}')
         const movimentacaoSS = await movimentacaoRef.once('value')
         const movimentacao = movimentacaoSS.val()
 
-        let entradas = 0
-        let saidas = 0
+        let entrada = 0
+        let saida = 0
 
         Object.keys(movimentacao).forEach(m => {
             if(movimentacao[m].valor > 0){

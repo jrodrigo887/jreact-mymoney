@@ -31,18 +31,10 @@ const AddMes = () => {
     const verMes = () => {
         const filepath = refAno.current.value + '-' + refMes.current.value
         setRedir(filepath)
-        console.log("path:", filepath)
-        console.log('redir', redir)
+    }
 
-        if(filepath !== '') {
-            //não consigo redirecionar a rota.
-            return  ( 
-                // <Redirect to={'/movimentacao/'+filepath} />
-                <h1>Chama o proximo Mês</h1>
-                ) 
-        // console.log('chamou o redirect!', '/movimentacao/' + filepath)
-        
-        }
+    if(redir !== '') {
+        return <Redirect to={'/movimentacao/' + redir} />
     }
 
     return (
@@ -58,5 +50,4 @@ const AddMes = () => {
         </React.Fragment>
     )
 }
-
 export default AddMes
