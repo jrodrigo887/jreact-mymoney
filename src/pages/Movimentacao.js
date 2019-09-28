@@ -1,17 +1,38 @@
 import React, { useState } from 'react'
 
 import Rest from '../util/rest'
-
 const baseurl = 'https://mymoney-jreact887.firebaseio.com/'
-const { useGet, usePost, useDelete } = Rest(baseurl)
+const { useGet, usePost, useDelete, usePatch } = Rest(baseurl)
 
 const Movimentacao = ({ match }) => {
     const data = useGet(`movimentacao/${match.params.data}`)
     const dataMeses = useGet(`meses/${match.params.data}`)
+    const [dataPatch, patch] = usePatch('')
     const [descricao, setDescricao] = useState('')
     const [valor, setValor] = useState('')
     const [postData, salvar] = usePost(`movimentacao/${match.params.data}`)
     const [deletarDados, deletar] = useDelete()
+
+    const verificarAnoMes = (valueParams) => {
+
+        const mesArray = ['Janeiro', 'Fevereiro', 'Março', 'Abril',
+            'Maio', 'Junho', 'Julho', 'Agosto',
+            'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
+        //tratamento para retorna mẽs em string mais ano.
+        const ano = valueParams.substring(0, 4)
+        const indexMes = parseInt(valueParams.substring(valueParams.indexOf('-') + 1))
+       
+        return mesArray[indexMes - 1] + ' de ' + ano
+    }
+
+    //Refresh da página mês
+    const refetchMes = (time) => {
+        setTimeout(() => {
+            dataMeses.refetch()
+        }, time)
+
+    }
 
     const SalvarMovimentacao = async () => {
 
@@ -23,20 +44,14 @@ const Movimentacao = ({ match }) => {
             setDescricao('')
             setValor('')
             data.refetch()
-            setTimeout(() => {
-                dataMeses.refetch()
-            }, 2000)
+            refetchMes(2000)
         }
     }
 
     const handleDeletar = async (id) => {
         await deletar(`movimentacao/${match.params.data}/${id}`)
         data.refetch()
-        setTimeout(() => {
-            dataMeses.refetch()
-        }, 2000)
-
-
+        refetchMes(2000)
     }
 
     const onChangeDesc = evt => {
@@ -46,22 +61,31 @@ const Movimentacao = ({ match }) => {
 
     const onChangeValor = evt => {
         setValor(evt.target.value)
-        console.log(evt.target.value)
     }
 
-    // if (data.loading) {
-    //     return (<span>Loading...</span>)
-    // }
+    const alterarEntrada = (evt) => {
+        patch(`meses/${match.params.data}`, { previsao_entrada: evt.target.value })
+        refetchMes(2000)
+    }
+
+    const alterarSaida = (evt) => {
+        patch(`meses/${match.params.data}`, { previsao_saida: evt.target.value })
+        refetchMes(2000)
+    }
+
     return (
         <>
             <div className='container'>
-                <h1>Movimentação do Mês - {match.params.data}</h1>
+                <h1>Movimentação do Mês: {verificarAnoMes(match.params.data)}</h1>
 
                 {
-                    !dataMeses.loading && <div>
-                        Previsão de Entrada: {dataMeses.data.previsao_entrada} / Previsão de Saida {dataMeses.data.previsao_saida} /
-                    Entradas: {console.log(dataMeses.data)} /
-                    saídas: {dataMeses.data.saidas}
+                    !dataMeses.loading && dataMeses.data && <div>
+                        Previsão de Entrada: {dataMeses.data.previsao_entrada} {' '}
+                        <input type='text' onBlur={alterarEntrada} /> /
+                        Previsão de Saida {dataMeses.data.previsao_saida} {' '}/
+                        <input type='text' onBlur={alterarSaida} />
+                        Entradas: {dataMeses.data.entrada} /
+                    saídas: {dataMeses.data.saida}
                     </div>
                 }
                 <table className='table table-hover table-sm'>

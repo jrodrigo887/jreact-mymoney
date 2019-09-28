@@ -38,13 +38,13 @@ const Rest = baseUrl => {
       dispatch({ type: 'REQUEST' })
 
       const res = await axios.post(baseUrl + resource + '.json', data)
-
       dispatch({ type: 'SUCCESS', data: res.data })
-      console.log(res)
+     
     }
     return [data, post]
   }
 
+  //delete
   const useDelete = () => {
     const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
 
@@ -56,10 +56,23 @@ const Rest = baseUrl => {
     return [data, remove]
   }
 
+  //patch
+  const usePatch = () => {
+    const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
+
+    const patch = async (resource, data) => {
+      dispatch({ type: 'REQUEST' })
+      await axios.patch(baseUrl + resource + '.json', data)
+      dispatch({ type: 'SUCCESS' })
+    }
+    return [data, patch]
+  }
+
   return {
     useGet,
     usePost,
-    useDelete
+    useDelete,
+    usePatch
   }
 }
 export default Rest
