@@ -19,7 +19,6 @@ const AddMes = () => {
         meses.push(i)
     }
 
-
     const zeroPad = valor => {
         if (valor < 10) {
             return '0' + valor
@@ -33,7 +32,7 @@ const AddMes = () => {
     }
 
     if(redir !== '') {
-        return <Redirect to={'/movimentacao/' + redir} />
+        return <Redirect to={'/movimentacoes/' + redir} />
     }
 
     return (

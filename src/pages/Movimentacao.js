@@ -5,16 +5,17 @@ const baseurl = 'https://mymoney-jreact887.firebaseio.com/'
 const { useGet, usePost, useDelete, usePatch } = Rest(baseurl)
 
 const Movimentacao = ({ match }) => {
-    const data = useGet(`movimentacao/${match.params.data}`)
+    const data = useGet(`movimentacoes/${match.params.data}`)
     const dataMeses = useGet(`meses/${match.params.data}`)
     const [dataPatch, patch] = usePatch('')
     const [descricao, setDescricao] = useState('')
     const [valor, setValor] = useState('')
-    const [postData, salvar] = usePost(`movimentacao/${match.params.data}`)
+    const [postData, salvar] = usePost(`movimentacoes/${match.params.data}`)
     const [deletarDados, deletar] = useDelete()
 
     const verificarAnoMes = (valueParams) => {
 
+        //array para mostrar em tela o mês selecionado. 
         const mesArray = ['Janeiro', 'Fevereiro', 'Março', 'Abril',
             'Maio', 'Junho', 'Julho', 'Agosto',
             'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -49,7 +50,7 @@ const Movimentacao = ({ match }) => {
     }
 
     const handleDeletar = async (id) => {
-        await deletar(`movimentacao/${match.params.data}/${id}`)
+        await deletar(`movimentacoes/${match.params.data}/${id}`)
         data.refetch()
         refetchMes(2000)
     }
@@ -76,7 +77,7 @@ const Movimentacao = ({ match }) => {
     return (
         <>
             <div className='container'>
-                <h1>Movimentação do Mês: {verificarAnoMes(match.params.data)}</h1>
+                <h1>Movimentações do mês de {verificarAnoMes(match.params.data)}</h1>
 
                 {
                     !dataMeses.loading && dataMeses.data && <div>
@@ -84,8 +85,8 @@ const Movimentacao = ({ match }) => {
                         <input type='text' onBlur={alterarEntrada} /> /
                         Previsão de Saida {dataMeses.data.previsao_saida} {' '}/
                         <input type='text' onBlur={alterarSaida} />
-                        Entradas: {dataMeses.data.entrada} /
-                    saídas: {dataMeses.data.saida}
+                        Entradas: {dataMeses.data.entradas} /
+                    saídas: {dataMeses.data.saidas}
                     </div>
                 }
                 <table className='table table-hover table-sm'>

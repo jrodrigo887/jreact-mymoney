@@ -8,6 +8,7 @@ const { useGet } = Rest(baseurl)
 
 const Meses = () => {
     const data = useGet('meses')
+    console.log(data.data)
     if (data.loading) {
         return <span>loading...</span>
     }
@@ -28,13 +29,15 @@ const Meses = () => {
                 {
                     Object.keys(data.data)
                         .map(mes => {
+                            console.log('Saidas',data.data[mes].saidas)
+                            console.log('Saidas',data.data[mes].entradas)
                             return (
                                 <tr key={mes}>
-                                    <td><Link to={`/movimentacao/${mes}`}>{mes}</Link></td>
+                                    <td><Link to={`/movimentacoes/${mes}`}>{mes}</Link></td>
                                     <td>{data.data[mes].previsao_entrada}</td>
-                                    <td>{data.data[mes].entrada}</td>
+                                    <td>{data.data[mes].entradas}</td>
                                     <td>{data.data[mes].previsao_saida}</td>
-                                    <td>{data.data[mes].saida}</td>
+                                    <td>{data.data[mes].saidas}</td>
                                 </tr>
                             )
                         })
@@ -45,6 +48,5 @@ const Meses = () => {
   }
   return null
 }
-
 
 export default Meses
