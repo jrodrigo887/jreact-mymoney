@@ -39,7 +39,7 @@ const Rest = baseUrl => {
 
       const res = await axios.post(baseUrl + resource + '.json', data)
       dispatch({ type: 'SUCCESS', data: res.data })
-     
+
     }
     return [data, post]
   }
@@ -75,4 +75,19 @@ const Rest = baseUrl => {
     usePatch
   }
 }
+
+export const usePost = resource => {
+  const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
+
+  const post = async (data) => {
+    dispatch({ type: 'REQUEST' })
+
+    const res = await axios.post(resource, data)
+    dispatch({ type: 'SUCCESS', data: res.data })
+    return res.data
+
+  }
+  return [data, post]
+}
+
 export default Rest
