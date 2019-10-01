@@ -11,20 +11,16 @@ const Login = () => {
             Object.keys(login.data).length > 0) {
             localStorage.setItem('token', login.data.idToken)
             console.log('Logou! ', login.data.idToken)
-
-        } else {
-            facalogin()
-        }
+        } 
 
 
     }, [login])
     const fazerLogin = async () => {
         const token = await setLogin({
             email: 'jrodrigo887@gmail.com',
-            password: 'abc123',
+            password: 'abc1234',
             returnSecureToken: true
         })
-        console.log('token >>>', token)
     }
 
     const facalogin = () => {
@@ -46,9 +42,10 @@ const Login = () => {
                 login.loading === false &&
                 <div>
                 <h1>Login</h1>
-                   <pre> JSON.stringify(login)</pre>
+                  
                 </div>}
                 <button onClick={fazerLogin}>Login</button>
+                <pre>{ JSON.stringify(login)}</pre>
         </>
     )
 
