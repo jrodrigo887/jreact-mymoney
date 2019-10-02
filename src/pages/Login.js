@@ -11,7 +11,7 @@ const Login = () => {
             Object.keys(login.data).length > 0) {
             localStorage.setItem('token', login.data.idToken)
             console.log('Logou! ', login.data.idToken)
-        } 
+        }
 
 
     }, [login])
@@ -41,11 +41,11 @@ const Login = () => {
             {
                 login.loading === false &&
                 <div>
-                <h1>Login</h1>
-                  
+                    <h1>Login</h1>
+
                 </div>}
-                <button onClick={fazerLogin}>Login</button>
-                <pre>{ JSON.stringify(login)}</pre>
+            <button onClick={fazerLogin}>Login</button>
+            <pre>{JSON.stringify(login)}</pre>
         </>
     )
 

@@ -1,6 +1,8 @@
 import { useReducer, useEffect } from 'react'
 import reducer from './Reducer'
 import axios from 'axios'
+axios.defaults.validateStatus = code => code < 500
+
 // const baseurl = 'https://mymoney-jreact887.firebaseio.com/'
 const REQUEST = 'REQUEST'
 const SUCCESS = 'SUCCESS'
@@ -19,15 +21,21 @@ const Rest = baseUrl => {
     const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
     //uso do método carregar para dá refresh na página.
     const carregar = async () => {
-      try{
-      dispatch({ type: REQUEST })
-      const res = await axios.get(baseUrl + resource + '.json')
-      dispatch({ type: SUCCESS, data: res.data })
-     }catch(err){
-      dispatch({ type: ERROR, error: err.message })
-     }
+      try {
+        dispatch({ type: REQUEST })
+        const res = await axios.get(baseUrl + resource + '.json')
+        console.log('useget', res.data)
+        if (res.data.error && Object.keys(res.data.error).length > 0) {
+          dispatch({ type: ERROR, data: res.data.error, code: res.data.error  })
+        } else {
+          dispatch({ type: SUCCESS, data: res.data })
+          
+        }        
+      } catch (err) {
+        dispatch({ type: ERROR, error: err.message })
+      }
     }
-    
+
 
     useEffect(() => {
       carregar()
@@ -87,23 +95,28 @@ const Rest = baseUrl => {
 
 export const usePost = resource => {
   const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
- 
 
-    const post = async (data) => {
-      dispatch({ type: REQUEST })
-  
-     try{
 
-       const res = await axios.post(resource, data)
-       dispatch({ type: SUCCESS, data: res.data })
-       return res.data
+  const post = async (data) => {
+    dispatch({ type: REQUEST })
 
-     }catch(err){
-       console.log(err.message)
-       dispatch({ type: ERROR, error: err.message })
-     } 
-  
+    try {
+
+      const res = await axios.post(resource, data)
+      console.log(res.data)
+      if (res.data.error && Object.keys(res.data.error).length > 0) {
+        dispatch({ type: ERROR, data: res.data.error.message })
+      } else {
+        dispatch({ type: SUCCESS, data: res.data })
+        return res.data
+      }
+
+    } catch (err) {
+      console.log(err.message)
+      dispatch({ type: ERROR, error: err.message })
     }
+
+  }
   return [data, post]
 
 }

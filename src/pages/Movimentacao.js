@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import {Redirect} from 'react-router-dom'
 import Rest from '../util/rest'
 const baseurl = 'https://mymoney-jreact887.firebaseio.com/'
 const { useGet, usePost, useDelete, usePatch } = Rest(baseurl)
@@ -23,7 +23,7 @@ const Movimentacao = ({ match }) => {
         //tratamento para retorna mẽs em string mais ano.
         const ano = valueParams.substring(0, 4)
         const indexMes = parseInt(valueParams.substring(valueParams.indexOf('-') + 1))
-       
+
         return mesArray[indexMes - 1] + ' de ' + ano
     }
 
@@ -74,6 +74,11 @@ const Movimentacao = ({ match }) => {
         refetchMes(2000)
     }
 
+    if (data.error === 'Permission denied') {
+        console.log('Teste de redir', data.error)
+        return <Redirect to='/login' />
+    }
+
     return (
         <>
             <div className='container'>
@@ -83,10 +88,10 @@ const Movimentacao = ({ match }) => {
                     !dataMeses.loading && dataMeses.data && <div>
                         Previsão de Entrada: {dataMeses.data.previsao_entrada} {' '}
                         <input type='text' onBlur={alterarEntrada} /> /
-                        Previsão de Saida {dataMeses.data.previsao_saida} {' '}/
-                        <input type='text' onBlur={alterarSaida} />
+Previsão de Saida {dataMeses.data.previsao_saida} {' '}/
+<input type='text' onBlur={alterarSaida} />
                         Entradas: {dataMeses.data.entradas} /
-                    saídas: {dataMeses.data.saidas}
+saídas: {dataMeses.data.saidas}
                     </div>
                 }
                 <table className='table table-hover table-sm'>
