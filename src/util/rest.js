@@ -26,7 +26,7 @@ const Rest = baseUrl => {
         const res = await axios.get(baseUrl + resource + '.json')
         console.log('useget', res.data)
         if (res.data.error && Object.keys(res.data.error).length > 0) {
-          dispatch({ type: ERROR, data: res.data.error, code: res.data.error  })
+          dispatch({ type: ERROR, data: res.data.error, code: res.data.error})
         } else {
           dispatch({ type: SUCCESS, data: res.data })
           
@@ -35,8 +35,6 @@ const Rest = baseUrl => {
         dispatch({ type: ERROR, error: err.message })
       }
     }
-
-
     useEffect(() => {
       carregar()
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,10 +72,10 @@ const Rest = baseUrl => {
   }
 
   //patch
-  const usePatch = () => {
+  const usePatch = (resource) => {
     const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
 
-    const patch = async (resource, data) => {
+    const patch = async (data) => {
       dispatch({ type: REQUEST })
       await axios.patch(baseUrl + resource + '.json', data)
       dispatch({ type: SUCCESS })
