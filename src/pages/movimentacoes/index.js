@@ -20,16 +20,10 @@ const Movimentacao = ({ match }) => {
 		return mesArray[indexMes - 1] + ' de ' + ano
 	}
 
-	const SalvarMovimentacao = async () => {
-	/*	if (!isNaN(valor) && valor.search(/^[-]?\d+(\.)?\d+?$/) >= 0) {
-			await salvarMovimentacao({
-				descricao,
-				valor: parseFloat(valor)
-			})
-			setDescricao('')
-			setValor('')
+	const SalvarMovimentacao = async (dados) => {
+			await salvarMovimentacao(dados)
 			movimentacoes.refetch()
-		}*/
+		
 	}
 
 	const handleDeletar = async (id) => {
@@ -69,7 +63,7 @@ const Movimentacao = ({ match }) => {
 									)
 								})
 						}
-						<AddMovimentacao onClick={(e) => {console.log('evento', e)}} />
+						<AddMovimentacao salvarMovimentacao={SalvarMovimentacao} />
 					</tbody>
 				</table>
 			</div>

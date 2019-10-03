@@ -1,24 +1,23 @@
 import React, {useState} from 'react'
 // import { useApiMovimentacao } from '../../api/index'
 
-const AddMovimentacao = () => {
+const AddMovimentacao = ({SalvarMovimentacao}) => {
 	//const { movimentacoes, salvarMovimentacao, deletarMovimentacao } = useApiMovimentacao(match.params.data)
 	
 	//gerir form
 	const [descricao, setDescricao] = useState('')
 	const [valor, setValor] = useState('')
 
-
-	const SalvarMovimentacao = async () => {
-		/*	if (!isNaN(valor) && valor.search(/^[-]?\d+(\.)?\d+?$/) >= 0) {
-				await salvarMovimentacao({
+	const salvarMovimentacao = async () => {
+			if (!isNaN(valor) && valor.search(/^[-]?\d+(\.)?\d+?$/) >= 0) {
+				await SalvarMovimentacao({
 					descricao,
 					valor: parseFloat(valor)
 				})
 				setDescricao('')
-				setValor('')
-				movimentacoes.refetch()
-			}*/
+				setValor(0)
+				
+			}
 		}
 
 		//input setar descriação  
@@ -39,7 +38,7 @@ const AddMovimentacao = () => {
 			<td>Valor: {' '}
 				<input type='text' defaultValue={valor} onChange={onChangeValor} />{'  '}
 			</td>
-			<td><button className='btn btn-success' onClick={SalvarMovimentacao}>+</button></td>
+			<td><button className='btn btn-success' onClick={salvarMovimentacao}>+</button></td>
 		</tr>
 	)
 }
