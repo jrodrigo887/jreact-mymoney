@@ -12,15 +12,25 @@ const Login = () => {
 		if (login.loading === false || login.data.registered === true ||
 			Object.keys(login.data).length > 0) {
 			localStorage.setItem('token', login.data.idToken)
-			setLogado(true)
+			window.location.reload()
+
 		}
 	}, [login])
+
+	useEffect(() => {
+		const token = localStorage.getItem('token')
+		if (token) {
+			setLogado(true)
+		}
+	})
+
 	const fazerLogin = async () => {
 		const token = await setLogin({
 			email: 'jrodrigo887@gmail.com',
 			password: 'abc123',
 			returnSecureToken: true
 		})
+
 	}
 
 	const facalogin = () => {
@@ -32,11 +42,9 @@ const Login = () => {
 			</>
 		)
 	}
-
-	if(logado) {
+	if (logado) {
 		return <Redirect to='/' />
 	}
-
 	return (
 		<>
 			{!login.loading === false && facalogin()}

@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 const Header = () => {
 	const [logado, setLogado] = useState(false)
+	const [redirect, setRedirect] = useState(false)
+	
 	useEffect(() => {
 		const token = localStorage.getItem('token')
 		if (token) {
 			setLogado(true)
 		} else {
 			setLogado(false)
+			setRedirect(true)
 		}
 	})
 
 	const logout = () => {
 		localStorage.removeItem('token')
-		console.log('Saiu', localStorage.getItem('token'))
+		setLogado(false)
+		window.location.reload()
 	}
 
+	if(redirect){
+		return <Redirect to='/login' />
+	}
 	return <>
 		<nav className='navbar navbar-light bg-light'>
 			<div className='container'>

@@ -6,8 +6,6 @@ import AddMovimentacao from './AddMovimentacao'
 
 const Movimentacao = ({ match }) => {
 	const { movimentacoes, salvarMovimentacao, deletarMovimentacao } = useApiMovimentacao(match.params.data)
-	
-	console.log('movimentação dados', movimentacoes)
 
 
 	const verificarAnoMes = (valueParams) => {
