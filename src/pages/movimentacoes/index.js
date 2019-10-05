@@ -7,6 +7,9 @@ import AddMovimentacao from './AddMovimentacao'
 const Movimentacao = ({ match }) => {
 	const { movimentacoes, salvarMovimentacao, deletarMovimentacao } = useApiMovimentacao(match.params.data)
 	
+	console.log('movimentação dados', movimentacoes)
+
+
 	const verificarAnoMes = (valueParams) => {
 
 		//array para mostrar em tela o mês selecionado. 
@@ -32,7 +35,7 @@ const Movimentacao = ({ match }) => {
 	}
 
 	if (movimentacoes.error === 'Permission denied') {
-		console.log('Teste de redir', movimentacoes.error)
+		console.log('Teste de redir', movimentacoes.error.code)
 		return <Redirect to='/login' />
 	}
 

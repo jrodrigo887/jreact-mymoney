@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Redirect } from 'react-router-dom'
 
 import { usePost } from '../util/rest'
 
@@ -6,14 +7,13 @@ const url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPasswo
 
 const Login = () => {
 	const [login, setLogin] = usePost(url)
+	const [logado, setLogado] = useState(false)
 	useEffect(() => {
 		if (login.loading === false || login.data.registered === true ||
 			Object.keys(login.data).length > 0) {
 			localStorage.setItem('token', login.data.idToken)
-			console.log('Logou! ', login.data.idToken)
+			setLogado(true)
 		}
-
-
 	}, [login])
 	const fazerLogin = async () => {
 		const token = await setLogin({
@@ -33,6 +33,10 @@ const Login = () => {
 		)
 	}
 
+	if(logado) {
+		return <Redirect to='/' />
+	}
+
 	return (
 		<>
 			{!login.loading === false && facalogin()}
@@ -46,7 +50,6 @@ const Login = () => {
 			<pre>{JSON.stringify(login)}</pre>
 		</>
 	)
-
 }
 
 export default Login

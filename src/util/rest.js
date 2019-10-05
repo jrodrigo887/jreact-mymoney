@@ -14,6 +14,13 @@ const INITIAL_STATE = {
   error: ''
 }
 
+const getAuth = () => {
+	const token = localStorage.getItem('token')
+	if(token){
+		return '?auth='+token
+	}
+	return ''
+}
 const Rest = baseUrl => {
 
   //get
@@ -23,10 +30,10 @@ const Rest = baseUrl => {
     const carregar = async () => {
       try {
         dispatch({ type: REQUEST })
-        const res = await axios.get(baseUrl + resource + '.json')
+        const res = await axios.get(baseUrl + resource + '.json'+getAuth())
         console.log('useget', res.data)
         if (res.data.error && Object.keys(res.data.error).length > 0) {
-          dispatch({ type: ERROR, data: res.data.error, code: res.data.error})
+          dispatch({ type: ERROR, data: res.data, code: res.data.error})
         } else {
           dispatch({ type: SUCCESS, data: res.data })
           
@@ -52,7 +59,7 @@ const Rest = baseUrl => {
     const post = async (data) => {
       dispatch({ type: REQUEST })
 
-      const res = await axios.post(baseUrl + resource + '.json', data)
+      const res = await axios.post(baseUrl + resource + '.json'+getAuth(), data)
       dispatch({ type: SUCCESS, data: res.data })
 
     }
@@ -65,7 +72,7 @@ const Rest = baseUrl => {
 
     const remove = async (resource) => {
       dispatch({ type: REQUEST })
-      await axios.delete(baseUrl + resource + '.json')
+      await axios.delete(baseUrl + resource + '.json'+getAuth())
       dispatch({ type: SUCCESS })
     }
     return [data, remove]
@@ -77,7 +84,7 @@ const Rest = baseUrl => {
 
     const patch = async (data) => {
       dispatch({ type: REQUEST })
-      await axios.patch(baseUrl + resource + '.json', data)
+      await axios.patch(baseUrl + resource + '.json'+getAuth(), data)
       dispatch({ type: SUCCESS })
     }
     return [data, patch]

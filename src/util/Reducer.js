@@ -53,7 +53,7 @@ const Reducer = (state, action) => {
         return {
             ...state,
             loading: true,
-            error: action.code,
+            error: action,
             code: action.code
         }
     }
