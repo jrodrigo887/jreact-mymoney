@@ -8,6 +8,8 @@ const url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPasswo
 const Login = () => {
 	const [login, setLogin] = usePost(url)
 	const [logado, setLogado] = useState(false)
+	const [email, setEmail] = useState('')
+	const [senha, setSenha] = useState(0)
 	useEffect(() => {
 		if (login.loading === false || login.data.registered === true ||
 			Object.keys(login.data).length > 0) {
@@ -26,19 +28,24 @@ const Login = () => {
 
 	const fazerLogin = async () => {
 		const token = await setLogin({
-			email: 'jrodrigo887@gmail.com',
-			password: 'abc123',
+			email,
+			password: senha,
 			returnSecureToken: true
 		})
 
 	}
 
+	const onChangeEmail = (evt) => {
+		setEmail(evt.target.value)
+	}
+	const onChangeSenha = (evt) => {
+		setSenha(evt.target.value)
+	}
+
 	const facalogin = () => {
 		return (
 			<>
-				<div>
-					<h1>Faça Login!</h1>
-				</div>
+
 			</>
 		)
 	}
@@ -47,15 +54,39 @@ const Login = () => {
 	}
 	return (
 		<>
-			{!login.loading === false && facalogin()}
-			{
-				login.loading === false &&
-				<div>
-					<h1>Login</h1>
+			<div className='container d-flex justify-content-lg-center'>
+				{
+					login.error && login.error.length > 0 &&
 
-				</div>}
-			<button onClick={fazerLogin}>Login</button>
-			<pre>{JSON.stringify(login)}</pre>
+					<div>
+						<p>Email e/ou Senha inválido.</p>
+					</div>
+				}
+				<div className='card'>
+					<h5 className='card-header'>Faça Login!</h5>
+					<div className='card-body' >
+						<div class="form-row">
+							<div class="form-group col-lg-12">
+								<input type='email' value={email} onChange={onChangeEmail} placeholder='E-mail' className='form-control sm'></input>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-lg-12">
+								<input type='password' value={senha} onChange={onChangeSenha} placeholder='Senha' className='form-control sm'></input>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group row justify-content-center">
+						<div class="col-sm-10">
+							<button type="submit" className="btn btn-primary" onClick={fazerLogin}>Sign in</button>
+						</div>
+					</div>
+
+
+				</div>
+				<pre>{JSON.stringify(login)}</pre>
+			</div>
 		</>
 	)
 }

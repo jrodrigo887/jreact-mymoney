@@ -7,7 +7,6 @@ import AddMovimentacao from './AddMovimentacao'
 const Movimentacao = ({ match }) => {
 	const { movimentacoes, salvarMovimentacao, deletarMovimentacao } = useApiMovimentacao(match.params.data)
 
-
 	const verificarAnoMes = (valueParams) => {
 
 		//array para mostrar em tela o mês selecionado. 
